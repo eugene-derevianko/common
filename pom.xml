@@ -12,7 +12,7 @@
 
     <groupId>com.github.symulakr</groupId>
     <artifactId>superpom</artifactId>
-    <version>1</version>
+    <version>1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>SuperPom</name>
     <description>Contains common settings for my projects.</description>
@@ -39,8 +39,11 @@
             <timezone>+2</timezone>
         </developer>
     </developers>
+
     <scm>
-        <url>git@github.com:symulakr/common.git</url>
+        <url>scm:git:git@github.com:symulakr/common.git</url>
+        <connection>scm:git:git@github.com:symulakr/common.git</connection>
+        <developerConnection>scm:git:git@github.com:symulakr/common.git</developerConnection>
     </scm>
 
     <properties>
@@ -90,5 +93,38 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>sign-artifacts</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.5</version>
+                        <configuration>
+                            <passphrase>${gpg.passphrase}</passphrase>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>
